@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAccount } from "wagmi";
+import { useXO } from "@/context/XOProvider";
 import { Award, Upload, FileText, ExternalLink, AlertCircle, CheckCircle2, Wallet } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { createClient } from "@/lib/supabase/client";
@@ -46,7 +46,7 @@ function getFilenameFromUrl(url: string) {
 export default function CertificatesPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useXO();
   const supabase = useMemo(() => createClient(), []);
   const fileInputRef = useRef<HTMLInputElement>(null);
 

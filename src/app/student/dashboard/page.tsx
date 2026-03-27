@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAccount } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useXO } from "@/context/XOProvider";
 import { GraduationCap, BookOpen, Award, ChevronRight, Wallet } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { createClient } from "@/lib/supabase/client";
@@ -25,7 +24,7 @@ function subscribe() {
 export default function StudentDashboardPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, connect, disconnect } = useXO();
   const supabase = useMemo(() => createClient(), []);
 
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
@@ -203,14 +202,21 @@ export default function StudentDashboardPage() {
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             {mounted ? (
-              <ConnectButton
-                showBalance={false}
-                chainStatus="icon"
-                accountStatus={{
-                  smallScreen: "avatar",
-                  largeScreen: "full",
-                }}
-              />
+              isConnected ? (
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-xl border border-slate-200">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="font-mono text-slate-700 text-sm">
+                    {address?.slice(0, 6)}...{address?.slice(-4)}
+                  </span>
+                  <Button variant="ghost" size="sm" onClick={disconnect} className="ml-2 text-slate-500 hover:text-red-500">
+                    Desconectar
+                  </Button>
+                </div>
+              ) : (
+                <Button size="md" onClick={connect} className="bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+                  Conectar Wallet
+                </Button>
+              )
             ) : (
               <div className="w-36 h-10 bg-slate-100 animate-pulse rounded-xl" />
             )}

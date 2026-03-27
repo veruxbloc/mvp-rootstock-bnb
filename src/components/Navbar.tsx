@@ -6,8 +6,7 @@ import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GraduationCap, Building2, LogOut, Briefcase } from "lucide-react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useHedera } from "@/context/HederaProvider";
+import { useXO } from "@/context/XOProvider";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "./ui/Button";
 
@@ -17,12 +16,12 @@ function subscribe() {
 
 export function Navbar() {
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
-  const { accountId, isConnected, connect, disconnect } = useHedera();
+  const { address, isConnected, connect, disconnect } = useXO();
   const { user, role, signOut } = useAuth();
   const router = useRouter();
 
-  const truncated = accountId
-    ? `${accountId.slice(0, 6)}...${accountId.slice(-4)}`
+  const truncated = address
+    ? `${address.slice(0, 6)}...${address.slice(-4)}`
     : null;
 
   async function handleSignOut() {
@@ -87,30 +86,22 @@ export function Navbar() {
             </Button>
           )}
 
-          {HEDERA_ENABLED && mounted && (
+          {mounted ? (
             isConnected ? (
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm">
-                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="font-mono text-slate-300 text-xs">{truncated}</span>
+                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-sm">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="font-mono text-slate-700 text-xs">{truncated}</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={disconnect} className="text-slate-500 hover:text-red-500">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
-              <Button size="sm" variant="outline" onClick={connect} className="gap-2 border-slate-300">
-                HashPack
+              <Button size="sm" onClick={connect} className="bg-blue-600 hover:bg-blue-700 text-white shadow-md">
+                Conectar Wallet
               </Button>
             )
-          )}
-
-          {mounted ? (
-            <ConnectButton
-              showBalance={false}
-              chainStatus="icon"
-              accountStatus={{ smallScreen: "avatar", largeScreen: "full" }}
-            />
           ) : (
             <div className="w-32 h-10 bg-slate-100 animate-pulse rounded-xl" />
           )}

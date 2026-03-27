@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Modal } from './ui/Modal';
 import { Button } from './ui/Button';
 import { useMarketplace } from '@/context/MarketplaceContext';
-import { useAccount } from 'wagmi';
+import { useXO } from '@/context/XOProvider';
 import { CheckCircle2, ShieldAlert, Circle } from 'lucide-react';
 
 const TX_STEPS = [
@@ -23,9 +23,9 @@ interface PurchaseModalProps {
 }
 
 export function PurchaseModal({ isOpen, onClose, datasetId, datasetName, tokenPrice, tokensAvailable }: PurchaseModalProps) {
-  const { isConnected } = useAccount();
+  const { isConnected } = useXO();
   const { buyTokens } = useMarketplace();
-  
+
   const [amount, setAmount] = useState<number>(1);
   const [status, setStatus] = useState<'idle' | 'processing' | 'success'>('idle');
   const [txStep, setTxStep] = useState(0);
@@ -69,7 +69,7 @@ export function PurchaseModal({ isOpen, onClose, datasetId, datasetName, tokenPr
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={status === 'processing' ? () => {} : resetAndClose} title={status === 'processing' ? 'Confirmando transacción' : `Financiar: ${datasetName}`}>
+    <Modal isOpen={isOpen} onClose={status === 'processing' ? () => { } : resetAndClose} title={status === 'processing' ? 'Confirmando transacción' : `Financiar: ${datasetName}`}>
       {status === 'processing' ? (
         <div className="flex flex-col items-center py-6 text-center">
           <div className="relative mb-6">
@@ -142,9 +142,9 @@ export function PurchaseModal({ isOpen, onClose, datasetId, datasetName, tokenPr
               <span className="block text-sm text-slate-500 mb-1">Total estimado</span>
               <span className="text-3xl font-bold text-slate-900">${amount * tokenPrice}</span>
             </div>
-            <Button 
+            <Button
               size="lg"
-              onClick={handlePurchase} 
+              onClick={handlePurchase}
               disabled={amount < 1 || amount > tokensAvailable || isNaN(amount)}
             >
               Comprar tokens

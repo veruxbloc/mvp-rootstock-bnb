@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Web3Provider } from "@/context/Web3Provider";
-import { HederaProvider } from "@/context/HederaProvider";
+import { XOProvider } from "@/context/XOProvider";
 import { MarketplaceProvider } from "@/context/MarketplaceContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Navbar } from "@/components/Navbar";
@@ -23,8 +22,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <body className={`${inter.className} min-h-screen bg-slate-50 flex flex-col`}>
-        <Web3Provider>
-          <HederaProvider>
+        <XOProvider>
             <MarketplaceProvider>
               <AuthProvider>
                 <Navbar />
@@ -34,8 +32,7 @@ export default function RootLayout({
                 <Footer />
               </AuthProvider>
             </MarketplaceProvider>
-          </HederaProvider>
-        </Web3Provider>
+        </XOProvider>
       </body>
     </html>
   );

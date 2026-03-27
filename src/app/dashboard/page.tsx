@@ -6,8 +6,7 @@ const HEDERA_ENABLED = false;
 // ────────────────────────────────────────────────────────────────────────────
 
 import { useMarketplace } from "@/context/MarketplaceContext";
-import { useHedera } from "@/context/HederaProvider";
-import { useAccount } from "wagmi";
+import { useXO } from "@/context/XOProvider";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Wallet, Database, Lock, Copy, Check, TrendingUp, ArrowUpRight } from "lucide-react";
@@ -16,12 +15,9 @@ import { useState } from "react";
 import { AgentChat } from "@/components/AgentChat";
 
 export default function DashboardPage() {
-  const hedera = useHedera();
-  const wagmi = useAccount();
-
-  const accountId   = HEDERA_ENABLED ? hedera.accountId  : (wagmi.address ?? null);
-  const isConnected = HEDERA_ENABLED ? hedera.isConnected : wagmi.isConnected;
-  const network     = HEDERA_ENABLED ? hedera.network     : (wagmi.chain?.name ?? "");
+  const { address, isConnected } = useXO();
+  const accountId = address;
+  const network = "EVM";
 
   const { datasets, userPurchases } = useMarketplace();
   const [copied, setCopied] = useState(false);
