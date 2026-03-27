@@ -9,7 +9,8 @@
       "WebSearch",
       "Bash(npm install:*)",
       "WebFetch(domain:xo-connect.xolabs.io)",
-      "Bash(npx hardhat:*)"
+      "Bash(npx hardhat:*)",
+      "Bash(curl -s -X POST http://localhost:3000/api/agent -H \"Content-Type: application/json\" -d '{\"\"\"\"messages\"\"\"\":[{\"\"\"\"role\"\"\"\":\"\"\"\"user\"\"\"\",\"\"\"\"content\"\"\"\":\"\"\"\"hola\"\"\"\"}]}')"
     ]
   }
 }
