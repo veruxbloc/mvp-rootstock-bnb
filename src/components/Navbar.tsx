@@ -40,7 +40,7 @@ export function Navbar() {
               </svg>
             </div>
             <span className="text-xl font-extrabold text-on-background font-[family-name:var(--font-plus-jakarta)] tracking-tight group-hover:text-primary transition-colors">
-              TalentChain
+              VeruxBloc
             </span>
           </Link>
 
