@@ -25,7 +25,7 @@ function subscribe() {
 export default function StudentDashboardPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const { address, isConnected, connectMetaMask, disconnect } = useXO();
+  const { address, isConnected, disconnect } = useXO();
   const [showWalletModal, setShowWalletModal] = useState(false);
   const supabase = useMemo(() => createClient(), []);
 
